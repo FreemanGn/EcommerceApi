@@ -3,9 +3,8 @@ namespace EcommerceApi.Models
 {
 	public class Category
 	{
-		public Category()
-		{
-		}
+		public int Id { get; set; }
+
 	}
 }
 
