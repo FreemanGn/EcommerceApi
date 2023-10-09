@@ -9,8 +9,7 @@ namespace EcommerceApi.Helper
 	{
 		public MappingProfile()
 		{
-			CreateMap<Category, CategoryDto>();
-			CreateMap<CategoryDto, Category>();
+			CreateMap<Category, CategoryDto>().ReverseMap();
 		}
 	}
 }
