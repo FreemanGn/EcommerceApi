@@ -29,5 +29,11 @@
     <Folder Include="Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Helper\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\Enums\" />
+    <None Remove="Migrations\" />
   </ItemGroup>
 </Project>

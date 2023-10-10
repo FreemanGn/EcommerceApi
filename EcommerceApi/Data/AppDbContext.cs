@@ -10,6 +10,17 @@ namespace EcommerceApi.Data
         {
         }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //Unique SKU Of product
+            modelBuilder.Entity<Product>()
+                .HasIndex(p => p.Sku)
+                .IsUnique();
+        }
 
     }
 }
