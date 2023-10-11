@@ -17,7 +17,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./Dockerfile
+        file: ./EcommerceApi/Dockerfile
         push: false
         tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
         repository: ${{ secrets.DOCKER_USERNAME }}/ecommerce
@@ -33,7 +33,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./Dockerfile
+        file: ./EcommerceApi/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
         repository: ${{ secrets.DOCKER_USERNAME }}/ecommerce
