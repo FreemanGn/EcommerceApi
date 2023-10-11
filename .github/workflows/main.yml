@@ -19,7 +19,7 @@ jobs:
         context: .
         file: ./EcommerceApi/Dockerfile
         push: false
-        tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/ecommerceapi:latest
         repository: ${{ secrets.DOCKER_USERNAME }}/ecommerce
 
 
@@ -35,5 +35,5 @@ jobs:
         context: .
         file: ./EcommerceApi/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/ecommerceapi:latest
         repository: ${{ secrets.DOCKER_USERNAME }}/ecommerce
