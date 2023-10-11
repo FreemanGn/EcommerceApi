@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.12" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
   </ItemGroup>
   <ItemGroup>
@@ -28,12 +29,17 @@
     <Folder Include="Dtos\" />
     <Folder Include="Data\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Helper\" />
     <Folder Include="Models\Enums\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Profiles\" />
+    <Folder Include="Repository\Interface\" />
+    <Folder Include="Services\Interface\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\Enums\" />
     <None Remove="Migrations\" />
+    <None Remove="Profiles\" />
+    <None Remove="Repository\Interface\" />
+    <None Remove="Services\Interface\" />
   </ItemGroup>
 </Project>
