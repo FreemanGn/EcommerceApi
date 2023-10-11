@@ -3,11 +3,11 @@ using AutoMapper;
 using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 
-namespace EcommerceApi.Helper
+namespace EcommerceApi.Profiles
 {
-	public class MappingProfile : Profile
-	{
-		public MappingProfile()
+	public class CategoryProfile : Profile
+    {
+		public CategoryProfile()
 		{
 			CreateMap<Category, CategoryDto>().ReverseMap();
 		}
