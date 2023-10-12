@@ -35,7 +35,7 @@ jobs:
     - name: Generate SQL Script
       run: dotnet tool install --global dotnet-ef
     - run: |
-        dotnet ef database update -p EcommerceApi.csproj  --connection ${{ secrets.DB_CONNECTION }}
+        dotnet ef database update -p EcommerceApi  --connection ${{ secrets.DB_CONNECTION }}
 
      
   deploy:
