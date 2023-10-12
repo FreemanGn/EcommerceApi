@@ -36,7 +36,7 @@ jobs:
       run: | 
         dotnet tool install --global dotnet-ef
         dotnet tool restore
-        dotnet ef database update --project EcommerceApi.csproj --startup-project EcommerceApi.csproj --context AppDbContexr
+        dotnet ef database update --project EcommerceApi/EcommerceApi.csproj --startup-project EcommerceApi/EcommerceApi.csproj --context AppDbContext
         env:
           DB_CONNECTION : ${{ secrets.DB_CONNECTION  }}
      
