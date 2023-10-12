@@ -32,13 +32,21 @@ jobs:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4ced3a79c3d14324a3f8991dd1be14b9 }}/ecommerceapi:container_${{ github.sha }}
         file: ./EcommerceApi/Dockerfile
-    - name: Run EF 
-      run: | 
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
-        dotnet ef database update --project EcommerceApi/EcommerceApi.csproj --startup-project EcommerceApi/EcommerceApi.csproj --context AppDbContext
-        env:
-          DB_CONNECTION : ${{ secrets.DB_CONNECTION  }}
+    - name: Generate SQL Script
+      run: dotnet tool install --global dotnet-ef
+    - run: dotnet ef migrations script --output $(Build.SourcesDirectory)/SQL/sqlscript.sql --idempotent --project $(Build.SourcesDirectory)/src/EcommerceApi/EcommerceApi.csproj --context DbContext
+
+    - name: Apply Migration to Azure Database
+      uses: Azure/sql-action@v1
+      with:
+          server-name: 'ecom-general-api.database.windows.net'
+          database-name: 'db_ecom'
+          authentication-type: 'sqlLogin'
+          username: ${{ secrets.AZURE_SQL_USERNAME }}
+          password: ${{ secrets.AZURE_SQL_PASSWORD }}
+          dacpac-package: '$(Build.SourcesDirectory)/SQL/sqlscript.sql'
+          additional-arguments: '--block-on-prompt --additional-argument'
+
      
   deploy:
     runs-on: ubuntu-latest
