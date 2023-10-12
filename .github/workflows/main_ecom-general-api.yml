@@ -37,7 +37,8 @@ jobs:
         dotnet tool install --global dotnet-ef
         dotnet tool restore
         dotnet ef database update --project ./EcommerceApi/EcommerceApi.csproj --startup-project ./EcommerceApi/EcommerceApi.csproj --context AppDbContext --verbose --connection '${{ secrets.DB_CONNECTION }}'
-        
+      env:
+        ASPNETCORE_ENVIRONMENT: Development
   deploy:
     runs-on: ubuntu-latest
     needs: build
