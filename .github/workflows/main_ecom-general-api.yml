@@ -36,7 +36,7 @@ jobs:
       run: | 
         dotnet tool install --global dotnet-ef
         dotnet tool restore
-        dotnet ef database update -p EcommerceApi --connection '${{ secrets.DB_CONNECTION }}'
+        dotnet-ef database update -p EcommerceApi --connection '${{ secrets.DB_CONNECTION }}'
      
   deploy:
     runs-on: ubuntu-latest
