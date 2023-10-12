@@ -34,7 +34,7 @@ jobs:
         file: ./EcommerceApi/Dockerfile
     - name: Generate SQL Script
       run: dotnet tool install --global dotnet-ef
-    - run: dotnet ef migrations script --output $(Build.SourcesDirectory)/SQL/sqlscript.sql --idempotent -p EcommerceApi.csproj --context DbContext
+    - run: dotnet ef migrations script --output ./EcommerceApi/SQL/sqlscript.sql --idempotent -p EcommerceApi.csproj --context DbContext
 
     - name: Apply Migration to Azure Database
       uses: Azure/sql-action@v1
@@ -44,7 +44,7 @@ jobs:
           authentication-type: 'sqlLogin'
           username: ${{ secrets.AZURE_SQL_USERNAME }}
           password: ${{ secrets.AZURE_SQL_PASSWORD }}
-          dacpac-package: '$(Build.SourcesDirectory)/SQL/sqlscript.sql'
+          dacpac-package: './EcommerceApi/SQL/sqlscript.sql'
           additional-arguments: '--block-on-prompt --additional-argument'
 
      
