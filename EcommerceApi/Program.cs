@@ -35,8 +35,11 @@ if (app.Environment.IsDevelopment())
     });
     
 }else{
-     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION")));
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION"));
+    });
+
 }
 
 app.UseSwagger();
