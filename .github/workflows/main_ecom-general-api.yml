@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Build
     steps:
+    - uses: actions/checkout@v4
     - name: Install dotnet ef tool
       run: dotnet tool install --global dotnet-ef
 
