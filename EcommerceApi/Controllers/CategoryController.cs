@@ -1,5 +1,9 @@
+
+using AutoMapper;
 using EcommerceApi.Dtos;
+using EcommerceApi.Models;
 using EcommerceApi.Services;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApi.Controllers
@@ -9,7 +13,7 @@ namespace EcommerceApi.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-
+        
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 using EcommerceApi.Repository.Interface;
@@ -62,6 +62,7 @@ namespace EcommerceApi.Services
             _mapper.Map<CategoryDto>(category);
 
             await _categoryRepository.UpdateAsync(category);
+
         }
     }
 }
