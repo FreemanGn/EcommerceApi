@@ -34,7 +34,7 @@ jobs:
         file: ./EcommerceApi/Dockerfile
     - name: Generate SQL Script
       run: dotnet tool install --global dotnet-ef
-    - run: dotnet ef database update  --verbose --no-build
+    - run: dotnet ef database update -p EcommerceApi  --verbose --no-build
       env:
         CONNECTION_STRING: ${{ secrets.DB_CONNECTION }} # Store your connection string as a secret
 
