@@ -36,17 +36,17 @@ jobs:
       run: dotnet tool install --global dotnet-ef
     
     - name: Generate scripts
-      run: dotnet-ef migrations script --output ./sql/sql-script.sql --idempotent --context AppDbContext
+      run: dotnet-ef migrations script --output ./sql/sql-script.sql --idempotent --context AppDbContext -p EcommerceApi
 
     - name: Azure SQL Deploy
-      uses: Azure/sql-action@v1
+      uses: Azure/sql-action@v2.2
       with:
         # Name of the Azure SQL Server name, like Fabrikam.database.windows.net.
         server-name: tcp:ecom-general-api.database.windows.net
         # The connection string, including authentication information, for the Azure SQL Server database.
         connection-string: ${{ secrets.DB_CONNECTION }}
         # Path to SQL script file to deploy
-        sql-file: ./sql/sql-script.sql
+        path: './sql/sql-script.sql'
 
      
   deploy:
