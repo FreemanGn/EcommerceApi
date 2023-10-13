@@ -24,24 +24,25 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
-    
-}else{
+
+}
+else
+{
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION"));
     });
-
 }
-
+var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
