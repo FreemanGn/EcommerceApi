@@ -34,7 +34,7 @@ jobs:
         file: ./EcommerceApi/Dockerfile
     - name: Generate SQL Script
       run: dotnet tool install --global dotnet-ef
-    - run: dotnet ef migrations script --output ./EcommerceApi/SQL/sqlscript.sql --idempotent -p EcommerceApi.csproj --context AppDbContext
+    - run: dotnet ef migrations script --output ./EcommerceApi/SQL/sqlscript.sql --idempotent -p EcommerceApi --context AppDbContext
     
     - name: Apply Migration to Azure Database
       uses: Azure/sql-action@v1
