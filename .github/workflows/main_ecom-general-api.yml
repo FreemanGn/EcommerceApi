@@ -46,6 +46,7 @@ jobs:
            password: ${{ secrets.AZURE_SQL_PASSWORD }}
            dacpac-package: './EcommerceApi/SQL/sqlscript.sql'
            additional-arguments: '--block-on-prompt --additional-argument'
+           connection-string: ${{ secrets.DB_CONNECTION }}
 
      
   deploy:
