@@ -1,5 +1,6 @@
 ﻿using System;
 using EcommerceApi.Dtos;
+using EcommerceApi.Models;
 
 namespace EcommerceApi.Services.Interface
 {
@@ -13,5 +14,8 @@ namespace EcommerceApi.Services.Interface
 
         Task<bool> SkuExistsAsync(string sku);
     }
+
+   
+    
 }
 

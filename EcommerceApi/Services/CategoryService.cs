@@ -1,54 +1,67 @@
-﻿using EcommerceApi.Data;
+﻿using AutoMapper;
+using EcommerceApi.Dtos;
 using EcommerceApi.Models;
+using EcommerceApi.Repository.Interface;
 
 namespace EcommerceApi.Services
 {
-	public class CategoryService : ICategoryService
-	{
-        private AppDbContext _appDbContext;
+    public class CategoryService : ICategoryService
+    {
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-		public CategoryService(AppDbContext appDbContext)
-		{
-            _appDbContext = appDbContext;
-		}
-
-        public bool CreateCategory(Category category)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _appDbContext.Add(category);
-
-            return Save();
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public bool DeleteCategory(Category category)
+        public async Task<CategoryDto> AddAsync(CategoryDto categoryDto)
         {
-            _appDbContext.Remove(category);
-            return Save();
+            var category = _mapper.Map<Category>(categoryDto);
+
+            await _categoryRepository.AddAsync(category);
+
+            return _mapper.Map<CategoryDto>(category);
         }
 
-        public ICollection<Category> GetCategories()
+        public Task<bool> CategoryExists(int id)
         {
-            return _appDbContext.Categories.ToList();
+            return _categoryRepository.CategoryExist(id);
         }
 
-        public Category GetCategory(int id)
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            return _appDbContext.Categories.Where(e => e.Id == id).FirstOrDefault();
+            var categories = await _categoryRepository.GetAllAsync();
+
+            var categoriesDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+
+            return categoriesDtos;
         }
 
-        public bool UpdateCategory(Category category)
+        public async Task<CategoryDto> GetByIdAsync(int id)
         {
-            _appDbContext.Update(category);
-            return Save();
-        }
-        public bool Save()
-        {
-            var saved = _appDbContext.SaveChanges();
-            return saved > 0 ? true : false;
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            var categoryDto = _mapper.Map<CategoryDto>(category);
+
+            return categoryDto;
         }
 
-        public bool CategoryExists(int id)
+        public async Task RemoveAsync(int id)
         {
-            return _appDbContext.Categories.Any(c => c.Id == id);
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            await _categoryRepository.RemoveAsync(category);
+        }
+
+        public async Task UpdateAsync(CategoryDto categoryDto)
+        {
+            var category = await _categoryRepository.GetByIdAsync(categoryDto.Id);
+
+            _mapper.Map<CategoryDto>(category);
+
+            await _categoryRepository.UpdateAsync(category);
         }
     }
 }
