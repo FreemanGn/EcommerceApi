@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using EcommerceApi.Dtos;
+using EcommerceApi.Models;
+
 
 namespace EcommerceApi.Services.Interface
 {
@@ -11,7 +13,7 @@ namespace EcommerceApi.Services.Interface
 		Task UpdateAsync(ProductDto productDto);
 		Task RemoveAsync(int id);
 
-        Task<bool> SkuExistsAsync(string sku);
+    Task<bool> SkuExistsAsync(string sku);
     }
 }
 
