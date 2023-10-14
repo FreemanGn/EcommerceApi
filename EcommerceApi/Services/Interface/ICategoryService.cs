@@ -1,7 +1,7 @@
-﻿using EcommerceApi.Dtos;
-using EcommerceApi.Models;
+using EcommerceApi.Dtos;
 
-namespace EcommerceApi.Services
+namespace EcommerceApi.Services.Interface
+
 {
 	public interface ICategoryService
 	{

@@ -3,6 +3,8 @@ using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 using EcommerceApi.Services;
 
+using EcommerceApi.Services.Interface;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApi.Controllers
@@ -19,6 +21,7 @@ namespace EcommerceApi.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
+
         {
             var categoryDtos = await _categoryService.GetAllAsync();
 
