@@ -1,4 +1,4 @@
-﻿using EcommerceApi.Data;
+using EcommerceApi.Data;
 using EcommerceApi.Repository;
 using EcommerceApi.Repository.Interface;
 using EcommerceApi.Services;
@@ -14,7 +14,6 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -23,8 +22,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
 
 // Configure the HTTP request pipeline.
 if (builder.Environment.IsDevelopment())
@@ -42,6 +39,8 @@ else
         options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION"));
     });
 }
+
+
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();

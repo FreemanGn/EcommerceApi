@@ -2,6 +2,7 @@ using AutoMapper;
 using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 using EcommerceApi.Services;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApi.Controllers
@@ -10,124 +11,112 @@ namespace EcommerceApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        private readonly IMapper _mapper;
-
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        private readonly ICategoryService _categoryService;        
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
-            _mapper = mapper;
         }
+
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
-        public IActionResult GetCategories()
+        public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
-            var categories = _mapper.Map<List<CategoryDto>>(_categoryService.GetCategories());
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var categoryDtos = await _categoryService.GetAllAsync();
 
-            return Ok(categories);
+            return Ok(categoryDtos);
         }
 
-        [HttpGet("{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(Category))]
-        [ProducesResponseType(400)]
-        public IActionResult GetCategoryById(int categoryId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CategoryDto>> GetDetailCategory(int id)
         {
-            if (!_categoryService.CategoryExists(categoryId))
-                return NotFound();
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Please Provide a valid Category Id");
+                }
+                var categoryDto = await _categoryService.GetByIdAsync(id);
 
-            var category = _mapper.Map<CategoryDto>(_categoryService.GetCategory(categoryId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(category);
+                if (categoryDto == null)
+                {
+                    return NotFound($"No Category was found with the given Id {id}");
+                }
+                return Ok(categoryDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occured ! Please try again later");
+            }
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public IActionResult CreateCategory([FromBody] CategoryDto categoryCreate)
+        public async Task<ActionResult<CategoryDto>> CreateCategory([FromBody] CategoryDto categoryDto)
         {
-            if (categoryCreate == null)
-                return BadRequest(ModelState);
-
-            var category = _categoryService.GetCategories()
-                .Where(c => c.Name.Trim().ToUpper() == categoryCreate.Name.TrimEnd().ToUpper())
-                .FirstOrDefault();
-
-            if (category != null)
+            try
             {
-                ModelState.AddModelError("", "Cette category existe deja");
-                return StatusCode(422, ModelState);
+                
+                if (await _categoryService.CategoryExists(categoryDto.Id))
+                {
+                    return Conflict("Category Already exists");
+                }
+
+                // add category
+                var category = await _categoryService.AddAsync(categoryDto);
+
+                // The category is successfully added, return the created category using get category details method
+                return CreatedAtAction(nameof(GetDetailCategory), new { Id = category.Id }, category);
             }
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var categoryMap = _mapper.Map<Category>(categoryCreate);
-
-            if (!_categoryService.CreateCategory(categoryMap))
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Verifier vos informations");
-                return StatusCode(500, ModelState);
-            }
 
-            return Ok("Categorie créée avec succes");
+                // Return Server error message
+                return StatusCode(500, "An error occurred! Please try again later");
+            }
         }
 
-        [HttpPut("{categoryId}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, CategoryDto categoryDto)
         {
-            if (updatedCategory == null)
-                return BadRequest(ModelState);
-
-            if (categoryId != updatedCategory.Id)
-                return BadRequest(ModelState);
-
-            if (!_categoryService.CategoryExists(categoryId))
-                return NotFound();
-
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            var categoryMap = _mapper.Map<Category>(updatedCategory);
-
-            if (!_categoryService.UpdateCategory(categoryMap))
+            try
             {
-                ModelState.AddModelError("", "Echec d'ajout de category");
-                return StatusCode(500, ModelState);
-            }
+                if (categoryDto.Id <= 0 || id != categoryDto.Id)
+                {
+                    return BadRequest("Please Provide a valid Category Id");
+                }
 
-            return NoContent();
+                await _categoryService.UpdateAsync(categoryDto);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred! Please try again later");
+            }
         }
 
-        [HttpDelete("{categoryId}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult DeleteCategory(int categoryId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (!_categoryService.CategoryExists(categoryId))
+            try
             {
-                return NotFound();
+                // note that id = 0 means that the id was not provided (null)
+                if (id <= 0)
+                {
+                    return BadRequest("Please provide an id of the category to delete");
+                }
+
+                var category = await _categoryService.GetByIdAsync(id);
+
+                if (category == null)
+                {
+                    return NotFound("The requested category to delete was not found");
+                }
+
+                return Ok("category was successfully Deleted");
             }
-
-            var categoryToDelete = _categoryService.GetCategory(categoryId);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!_categoryService.DeleteCategory(categoryToDelete))
+            catch
             {
-                ModelState.AddModelError("", "Verifier vos informations");
+                return StatusCode(500, "An error occurred! Please try again later");
             }
-
-            return NoContent();
         }
 
     }
