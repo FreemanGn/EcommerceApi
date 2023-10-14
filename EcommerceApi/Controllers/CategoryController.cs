@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using EcommerceApi.Dtos;
 using EcommerceApi.Models;
@@ -12,8 +11,7 @@ namespace EcommerceApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        
+        private readonly ICategoryService _categoryService;        
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -120,5 +118,6 @@ namespace EcommerceApi.Controllers
                 return StatusCode(500, "An error occurred! Please try again later");
             }
         }
+
     }
 }
