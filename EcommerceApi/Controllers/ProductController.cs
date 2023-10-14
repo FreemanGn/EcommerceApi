@@ -115,7 +115,7 @@ namespace EcommerceApi.Controllers
                 {
                     return NotFound("The requested product to delete was not found");
                 }
-
+                await _productService.RemoveAsync(id);
                 return Ok("Product was successfully Deleted");
             }
             catch

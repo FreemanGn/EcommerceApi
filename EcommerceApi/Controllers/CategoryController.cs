@@ -114,6 +114,7 @@ namespace EcommerceApi.Controllers
                     return NotFound("The requested category to delete was not found");
                 }
 
+                await _categoryService.RemoveAsync(id);
                 return Ok("category was successfully Deleted");
             }
             catch
