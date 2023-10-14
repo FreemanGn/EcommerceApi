@@ -16,7 +16,6 @@ namespace EcommerceApi.Dtos
         public Size Size { get; set; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
     }
 	
 }
