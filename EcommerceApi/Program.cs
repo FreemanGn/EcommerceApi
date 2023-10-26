@@ -25,6 +25,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
+
 // Configure the HTTP request pipeline.
 if (builder.Environment.IsDevelopment())
 {
@@ -44,6 +56,7 @@ else
 
 
 var app = builder.Build();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -51,6 +64,7 @@ app.UseHttpsRedirection();
 
 
 app.UseRouting();
+app.UseCors();
 
 app.UseAuthorization();
 
