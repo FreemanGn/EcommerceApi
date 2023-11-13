@@ -61,7 +61,7 @@ namespace EcommerceApi.Services
         {
             var product = await _productRepository.GetByIdAsync(productDto.Id);
 
-            _mapper.Map<ProductDto>(product);
+            _mapper.Map(productDto, product);
 
             await _productRepository.UpdateAsync(product);
         }

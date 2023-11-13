@@ -61,7 +61,7 @@ namespace EcommerceApi.Services
         {
             var category = await _categoryRepository.GetByIdAsync(categoryDto.Id);
 
-            _mapper.Map<CategoryDto>(category);
+            _mapper.Map(categoryDto, category);
 
             await _categoryRepository.UpdateAsync(category);
 
