@@ -98,7 +98,8 @@ namespace EcommerceApi.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             try
@@ -116,7 +117,7 @@ namespace EcommerceApi.Controllers
                     return NotFound("The requested product to delete was not found");
                 }
                 await _productService.RemoveAsync(id);
-                return Ok("Product was successfully Deleted");
+                return Ok(new { message = "Product was successfully Deleted" });
             }
             catch
             {
