@@ -30,8 +30,8 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_05064f6c9ceb4e51bc62696dc270b058 }}/ecommerceapi:${{ github.sha }}
-        file: ./Dockerfile
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_05064f6c9ceb4e51bc62696dc270b058 }}/ecommerceapi:container_${{ github.sha }}
+        file: ./EcommerceApi/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,4 +48,4 @@ jobs:
         app-name: 'ecom-shop-api'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_a205ac5843414e7cbc0ed0ff299cddc3 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_05064f6c9ceb4e51bc62696dc270b058 }}/ecommerceapi:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_05064f6c9ceb4e51bc62696dc270b058 }}/ecommerceapi:container_${{ github.sha }}'
