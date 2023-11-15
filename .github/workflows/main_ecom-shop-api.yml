@@ -39,7 +39,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dotnet ef tool
-      run: dotnet tool install --global dotnet-ef
+      run: dotnet tool install --global dotnet-ef --version 7.0.12
 
     - name: Generate scripts
       run: dotnet ef migrations script --output ./sql/sql-script.sql --idempotent --context AppDbContext -p EcommerceApi
