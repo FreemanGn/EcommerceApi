@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_1eb0038282044d2792f68ad518debc59 }}/freemangn/ecommerceapi:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_1eb0038282044d2792f68ad518debc59 }}/ecommerceapi:container_${{ github.sha }}
         file: ./EcommerceApi/Dockerfile
 
   deploy:
