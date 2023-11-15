@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_1eb0038282044d2792f68ad518debc59 }}/freemangn/ecommerceapi:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./EcommerceApi/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
