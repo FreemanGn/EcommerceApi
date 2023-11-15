@@ -47,7 +47,7 @@ jobs:
     - name: Azure SQL Deploy 
       uses: Azure/sql-action@v2.2
       with:
-          server-name: tcp:ecom-general-api.database.windows.net
+          server-name: tcp:ecom-shop-api.database.windows.net
           connection-string: ${{ secrets.DB_CONNECTION }}
           path: './sql/sql-script.sql'
 
