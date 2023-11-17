@@ -8,6 +8,7 @@ using EcommerceApi.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddTransient<IAzureStorage, AzureStorage>();
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +50,10 @@ if (builder.Environment.IsDevelopment())
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
+
+    Log.Logger = new LoggerConfiguration()
+       .ReadFrom.Configuration(builder.Configuration)
+       .CreateLogger();
 
 }
 else
