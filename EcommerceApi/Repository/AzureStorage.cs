@@ -80,9 +80,24 @@ namespace EcommerceApi.Repository.Interface
             return response;
         }
 
-        public Task<BlobImage> DeleteAsync(string blobFileName)
+        public async Task<BlobImageResponse> DeleteAsync(string fileName)
         {
-            throw new NotImplementedException();
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            BlobClient file = container.GetBlobClient(fileName);
+
+            try
+            {
+                await file.DeleteAsync();
+            }
+            catch (RequestFailedException ex)
+                when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
+            {
+                // File did not exist, log to console and return new response to requesting method
+                _logger.LogError($"File {fileName} was not found.");
+                return new BlobImageResponse { Error = true, Status = $"File with name {fileName} not found." };
+            }
+            return new BlobImageResponse { Error = false, Status = $"File: {fileName} has been successfully deleted." };
         }
 
         public Task<BlobImage> DownloadAsync(string blobFileName)

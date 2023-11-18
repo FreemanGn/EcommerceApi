@@ -6,12 +6,12 @@ namespace EcommerceApi.Services.Interface
 {
 	public interface IProductService
 	{
-    Task<IEnumerable<ProductDto>> GetAllAsync();
+		Task<IEnumerable<ProductResponseDto>> GetAllAsync();
 		Task<ProductDto> GetByIdAsync(int id);
-		Task<ProductDto> AddAsync(ProductDto productDto);
+		Task<ProductRequetDto> AddAsync(ProductRequetDto productRequetDto, IFormFile file);
 		Task UpdateAsync(ProductDto productDto);
 		Task RemoveAsync(int id);
-    Task<bool> SkuExistsAsync(string sku);
-  }
+		Task<bool> SkuExistsAsync(string sku);
+	}
 }
 

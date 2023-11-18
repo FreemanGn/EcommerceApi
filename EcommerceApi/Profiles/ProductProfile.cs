@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 
@@ -10,6 +9,8 @@ namespace EcommerceApi.Profiles
 		public ProductProfile()
 		{
 			CreateMap<Product, ProductDto>().ReverseMap();
+			CreateMap<Product, ProductRequetDto>().ReverseMap();
+			CreateMap<Product, ProductResponseDto>().ReverseMap();
 		}
 	}
 }

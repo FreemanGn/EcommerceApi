@@ -19,7 +19,7 @@ namespace EcommerceApi.Controllers
 
         
         [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> GetAllProducts()
+        public async Task<ActionResult<List<ProductResponseDto>>> GetAllProducts()
         {
             var productDtos = await _productService.GetAllAsync();
 
@@ -52,18 +52,18 @@ namespace EcommerceApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] ProductDto productDto)
+        public async Task<ActionResult<ProductRequetDto>> CreateProduct([FromForm] ProductRequetDto productRequetDto)
         {
             try
             {
                 // Verify if a product with the same sku already exists
-                if (await _productService.SkuExistsAsync(productDto.Sku))
+                if (await _productService.SkuExistsAsync(productRequetDto.Sku))
                 {
                     return Conflict("Product with the same SKU Already exists");
                 }
 
                 // add product
-                var product = await _productService.AddAsync(productDto);
+                var product = await _productService.AddAsync(productRequetDto, productRequetDto.file);
 
                 // The product is successfully added, return the created product using get product details method
                 return CreatedAtAction(nameof(GetDetailProduct), new { Id = product.Id }, product);

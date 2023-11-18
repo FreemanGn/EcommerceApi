@@ -4,34 +4,44 @@ using EcommerceApi.Dtos;
 using EcommerceApi.Models;
 using EcommerceApi.Repository.Interface;
 using EcommerceApi.Services.Interface;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace EcommerceApi.Services
 {
 	public class ProductService : IProductService
 	{
         private readonly IProductRepository _productRepository;
+        private readonly IAzureStorage _azureStorage;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository,IMapper mapper)
+        public ProductService(IProductRepository productRepository,IAzureStorage azureStorage,IMapper mapper)
 		{
             _productRepository = productRepository;
             _mapper = mapper;
+            _azureStorage = azureStorage;
         }
 
-        public async Task<ProductDto> AddAsync(ProductDto productDto)
+        public async Task<ProductRequetDto> AddAsync(ProductRequetDto productRequetDto,IFormFile file)
         {
-            var product = _mapper.Map<Product>(productDto);
+            var product = _mapper.Map<Product>(productRequetDto);
 
-            await _productRepository.AddAsync(product);
+            BlobImageResponse? response = await _azureStorage.UploadAsync(file);
 
-            return _mapper.Map<ProductDto>(product);
+            if (response.Error != true)
+            {
+                product.ImageUrl = response.BlobImage.Uri;
+                product.ImageName = response.BlobImage.Name;
+                await _productRepository.AddAsync(product);
+            }
+            return _mapper.Map<ProductRequetDto>(product);
+
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllAsync()
+        public async Task<IEnumerable<ProductResponseDto>> GetAllAsync()
         {
             var products = await _productRepository.GetAllAsync();
 
-            var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
+            var productDtos = _mapper.Map<IEnumerable<ProductResponseDto>>(products);
 
             return  productDtos;
         }

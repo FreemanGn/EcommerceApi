@@ -7,7 +7,7 @@ namespace EcommerceApi.Repository.Interface
 	{
 		Task<BlobImageResponse> UploadAsync(IFormFile file);
 		Task<BlobImage> DownloadAsync(string blobFileName);
-		Task<BlobImage> DeleteAsync(string blobFileName);
+		Task<BlobImageResponse> DeleteAsync(string blobFileName);
 		Task<List<BlobImage>> ListAsync();
     }
 }

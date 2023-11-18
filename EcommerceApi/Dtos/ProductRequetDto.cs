@@ -4,19 +4,17 @@ using Newtonsoft.Json.Converters;
 
 namespace EcommerceApi.Dtos
 {
-	public class ProductDto
+	public class ProductRequetDto
 	{
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public string Image { get; set; }
         public string Sku { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Size Size { get; set; }
         public int CategoryId { get; set; }
         public IFormFile file { get; set; }
     }
-	
 }
 
