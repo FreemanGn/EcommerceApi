@@ -47,6 +47,21 @@ namespace EcommerceApi.Controllers
             }
         }
 
+        [HttpDelete(nameof(Delete))]
+        public async Task<IActionResult> Delete(string filename)
+        {
+            BlobImageResponse response = await _storage.DeleteAsync(filename);
+            if(response.Error == true)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, response.Status);
+            }
+            else
+            {
+                // Return a success message to the client about successfull upload
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+        }
+
 
     }
 }
