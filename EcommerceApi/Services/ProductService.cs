@@ -33,6 +33,11 @@ namespace EcommerceApi.Services
                 product.ImageName = response.BlobImage.Name;
                 await _productRepository.AddAsync(product);
             }
+            else
+            {
+                await _azureStorage.DeleteAsync(product.ImageName);
+            }
+            //Je dois modifier celà et renvoyer une erreur ou un succès
             return _mapper.Map<ProductRequetDto>(product);
 
         }
@@ -59,7 +64,13 @@ namespace EcommerceApi.Services
         {
             var product = await _productRepository.GetByIdAsync(id);
 
-            await _productRepository.RemoveAsync(product);
+            BlobImageResponse? response = await _azureStorage.DeleteAsync(product.ImageName);
+
+            if(response.Error != true)
+            {
+                await _productRepository.RemoveAsync(product);
+            }
+            //Je dois implementer le else en renvoyant une erreur 
         }
 
         public Task<bool> SkuExistsAsync(string sku)
